@@ -1,4 +1,4 @@
-peakaboo
+peekaboo
 ========
 
 LVHacks 2014
