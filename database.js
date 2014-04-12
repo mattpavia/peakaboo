@@ -12,7 +12,7 @@ var db = require('mongodb').Db,
     BSON = require('mongodb').pure().BSON,
     assert = require('assert');
 
-var db = new Db('peekaboo', new Server("mattpavia.com", 27017,
+var db = new db('peekaboo', new Server("mattpavia.com", 27017,
 	{auto_reconnect: false, poolSize: 4}), {w:0, native_parser: false});
 
 // Establish connection to db
