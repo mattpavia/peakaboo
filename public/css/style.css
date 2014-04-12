@@ -188,3 +188,16 @@ a:hover {
 .right {
     text-align: right;
 }
+
+.bottomButton {
+    position: absolute;
+    bottom: 0;
+    width: 20%;
+    height: 60px;
+    background: #eee;
+}
+.bottomButtonText{
+    font-size: 100%;
+    padding-top: 10%;
+    color: #000000;
+}
