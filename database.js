@@ -2,13 +2,6 @@
 // database.js
 
 var db = require('mongodb').Db,
-    MongoClient = require('mongodb').MongoClient,
-    Server = require('mongodb').Server,
-    ReplSetServers = require('mongodb').ReplSetServers,
-    ObjectID = require('mongodb').ObjectID,
-    Binary = require('mongodb').Binary,
-    GridStore = require('mongodb').GridStore,
-    Code = require('mongodb').Code,
     assert = require('assert');
 
 var db = new db('peekaboo', new Server("mattpavia.com", 27017,
