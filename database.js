@@ -9,11 +9,13 @@ var db = new db('peekaboo', new Server("mattpavia.com", 27017,
 	{auto_reconnect: false, poolSize: 4}), {w:0, native_parser: false});
 
 // Establish connection to db
-db.open(function(err, db) {
-    assert.equal(null, err);
-    db.authenticate('peekaboo', 'lvhacks2014', function(err, result) {
-        assert.equal(true, result);
-        db.peekaboo.insert({x : 1});
+export.test = function() {
+    db.open(function(err, db) {
+        assert.equal(null, err);
+        db.authenticate('peekaboo', 'lvhacks2014', function(err, result) {
+            assert.equal(true, result);
+            db.peekaboo.insert({x : 1});
+        });
     });
-});
+}
 db.close();
