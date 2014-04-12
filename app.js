@@ -65,6 +65,7 @@ io.on('connection', function(socket) {
 });
 
 app.get('/', routes.index);
+app.get('/:id', routes.index);
 
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

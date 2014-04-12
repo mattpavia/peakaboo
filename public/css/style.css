@@ -16,6 +16,11 @@ body {
     font-family: 'Montserrat', sans-serif;
 }
 
+a {
+    text-decoration: none;
+    color: #ecf0f1;
+}
+
 a:hover {
     text-decoration: none;
 }
@@ -48,7 +53,7 @@ a:hover {
     cursor: pointer;
 }
 
-.link i {
+.link a i {
     font-size: 130%;
     width: 15%;
     float: left;
@@ -57,7 +62,7 @@ a:hover {
     text-align: center;
 }
 
-.link span {
+.link a span {
     float: left;
     width: 45%;
     text-align: left;
