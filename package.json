@@ -9,6 +9,8 @@
     "express": "3.5.1",
     "nunjucks": "*",
     "socket.io": "*",
-    "mongoose" : "*"
+    "mongoose" : "*",
+    "passport" : "~0.1.17",  
+    "passport-facebook" : "~1.0.2"
   }
 }
