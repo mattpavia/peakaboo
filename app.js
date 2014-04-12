@@ -32,18 +32,36 @@ Group.find().or([{'user_1': 'Matt'}, {'user_2': 'Matt'}]).exec(function(err, gro
 });
 
 // all environments
-app.set('port', process.env.PORT || 3000);
-app.set('views', path.join(__dirname, 'views'));
-//app.set('view engine', 'hjs');
-app.use(express.favicon());
-app.use(express.logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded());
-app.use(express.methodOverride());
-app.use(express.cookieParser('your secret here'));
-app.use(express.session());
-app.use(app.router);
-app.use(express.static(path.join(__dirname, 'public')));
+// app.set('port', process.env.PORT || 3000);
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'hjs');
+// app.use(express.favicon());
+// app.use(express.logger('dev'));
+// app.use(express.json());
+// app.use(express.urlencoded());
+// app.use(express.methodOverride());
+// app.use(express.cookieParser('your secret here'));
+// app.use(express.session());
+// app.use(app.router);
+// app.use(express.static(path.join(__dirname, 'public')));
+
+app.configure(function() {
+  app.set('port', process.env.PORT || 3000);
+  // set up our express application
+  app.use(express.logger('dev')); // log every request to the console
+  app.set('views', path.join(__dirname, 'views'));
+  app.use(express.cookieParser('KITTENS')); // read cookies (needed for auth)
+  app.use(express.bodyParser()); // get information from html forms
+  app.use(express.json());
+  //app.set('view engine', 'ejs'); // set up ejs for templating
+
+  // required for passport
+  app.use(express.session({ secret: 'MOAR KITTENS' })); // session secret
+  app.use(passport.initialize());
+  app.use(passport.session()); // persistent login sessions
+  app.use(app.router);
+  app.use(express.static(path.join(__dirname, 'public')));
+});
 
 // development only
 if ('development' == app.get('env')) {
