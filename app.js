@@ -13,7 +13,7 @@ var app = express();
 
 // New
 var mongoose = require('mongoose');
-var configdb = require('./config/database.js');
+var configdb = require('./config/database');
 
 // Connect to database
 mongoose.connect(configdb.url);
