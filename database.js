@@ -15,6 +15,7 @@ exports.test = function() {
         db.authenticate('peekaboo', 'lvhacks2014', function(err, result) {
             assert.equal(true, result);
             db.peekaboo.insert({x : 1});
+            console.log(err);
         });
     });
 }
