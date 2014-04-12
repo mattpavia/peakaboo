@@ -52,7 +52,6 @@ io.on('connection', function(socket) {
     });
 
     socket.on('message', function(data) {
-        console.log("message socket: " + data.msg);
         messages.push(data);
 
         sockets.forEach(function (socket) {
