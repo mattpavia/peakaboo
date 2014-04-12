@@ -9,7 +9,6 @@ var db = require('mongodb').Db,
     Binary = require('mongodb').Binary,
     GridStore = require('mongodb').GridStore,
     Code = require('mongodb').Code,
-    BSON = require('mongodb').pure().BSON,
     assert = require('assert');
 
 var db = new db('peekaboo', new Server("mattpavia.com", 27017,
