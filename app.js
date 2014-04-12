@@ -85,8 +85,8 @@ app.get('/login', passport.authenticate('facebook', { scope : 'email' }));
 
 // handle the callback after facebook has authenticated the user
 app.get('/login/callback', passport.authenticate('facebook', {
-  successRedirect : '/worked',
-  failureRedirect : '/notworked'
+  successRedirect : '/',
+  failureRedirect : '/login'
 }));
 
 // route for logging out
@@ -96,7 +96,7 @@ app.get('/logout', function(req, res) {
 });
 
 app.get('/', routes.index);
-app.get('/:id', routes.index);
+app.get('/group/:id', routes.group);
 
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

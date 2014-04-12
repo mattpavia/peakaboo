@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block content %}
+
+<div class="page green">
+    <div class="content">
+        <header>Group {{ group.id }}</header>
+        <article>
+            <div class="chat_area">
+                <div class="messages">
+                    
+                </div>
+                <form class="interact">
+                    <input type="text" class="input">
+                    <input type="submit" class="submit" value="Send">
+                </form>
+            </div>
+        </article>
+    </div>
+</div>
+
+{% endblock %}

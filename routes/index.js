@@ -1,12 +1,18 @@
 var Group = require('../models/group');
 
 exports.index = function(req, res) {
+    res.render('index.html', {
+        title: 'Peekaboo'
+    });
+};
+
+exports.group = function(req, res) {
     Group.findOne({'id': req.param('id')}, function(err, g) {
         if (err) {
             console.log(err);
         }
         if (g) {
-            res.render('index.html', {
+            res.render('group.html', {
                 title: 'Peekaboo',
                 group: g
             });
@@ -16,4 +22,4 @@ exports.index = function(req, res) {
             });
         }
     });
-};
+}
