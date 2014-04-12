@@ -66,11 +66,6 @@ io.on('connection', function(socket) {
 app.get('/', routes.index);
 app.get('/:id', routes.index);
 
-// Added by Jack for database.js test 4/12/14
-db = require('./database');
-db.test;
-
-
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
