@@ -2,6 +2,7 @@
 // database.js
 
 var db = require('mongodb').Db,
+    Server = require('mongodb').Server,
     assert = require('assert');
 
 var db = new db('peekaboo', new Server("mattpavia.com", 27017,
