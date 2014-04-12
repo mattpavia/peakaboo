@@ -1,11 +1,11 @@
-// messages.js
+// message.js
 
 var mongoose = require('mongoose');
-var userSchema = mongoose.Schema({
+var messageSchema = mongoose.Schema({
 	sender : String,
 	receiver : String,
 	data : String,
 	time : Timestamp
 });
 
-module.exports = mongoose.model('messages', userSchema);
+module.exports = mongoose.model('Message', messageSchema);
