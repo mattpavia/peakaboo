@@ -3,7 +3,7 @@
 var mongoose = require('mongoose');
 var messageSchema = mongoose.Schema({
 	sender : String,
-	receiver : String,
+	group : Number,
 	data : String,
 	time : Timestamp
 });
