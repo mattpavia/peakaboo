@@ -3,9 +3,11 @@ $(document).ready(function() {
     var socket = io.connect();
 
     $(".interact").submit("click", function(e) {
+        var form = $(this);
         e.preventDefault();
         socket.emit('message', {
-            msg: $(".input").val()
+            msg: $(".input").val(),
+            group: form.data('id');
         });
         $(".input").val("");
     });
