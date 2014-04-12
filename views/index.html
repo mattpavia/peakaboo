@@ -1,0 +1,99 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block content %}
+
+<div class="sidebar">
+    <div class="nav">
+        <div class="link green_hover" data-color="green">
+            <i class="fa fa-home"></i><span>Group 1</span>
+        </div>
+        <div class="link teal_hover" data-color="teal">
+            <i class="fa fa-comments"></i> <span>Group 2</span>
+        </div>
+        <div class="link blue_hover" data-color="blue">
+            <i class="fa fa-thumb-tack"></i> <span>Group 3</span>
+        </div>
+        <div class="link purple_hover" data-color="purple">
+            <i class="fa fa-users"></i> <span>Group 4</span>
+        </div>
+        <div class="link red_hover" data-color="red">
+            <i class="fa fa-user"></i> <span>Group 5</span>
+        </div>
+        <div class="link orange_hover" data-color="orange">
+            <i class="fa fa-trophy"></i> <span>Group 6</span>
+        </div>
+        <div class="link yellow_hover" data-color="yellow">
+            <i class="fa fa-envelope-o"></i> <span>Group 7</span>
+        </div>
+    </div>
+</div>
+
+<div style="clear: both"></div>
+
+<div class="pages">
+    <div class="page green">
+        <div class="content">
+            <header>Group 1</header>
+            <article>
+                <div class="chat_area">
+                    <div class="messages">
+                        <!--<div class="me">test</div>
+                        <div class="other">testing</div>-->
+                    </div>
+                    <div class="interact">
+                        <input type="text" class="input" />
+                        <button type="submit" class="submit">Go!</button>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+
+    <div class="page teal">
+        <div class="content">
+            <header>Group 2</header>
+            <article><em>Coming soon</em></article>
+        </div>
+    </div>
+
+    <div class="page blue">
+        <div class="content">
+            <header>Group 3</header>
+            <article><em>Coming soon</em></article>
+        </div>
+    </div>
+
+    <div class="page purple">
+        <div class="content">
+            <header>Group 4</header>
+            <article><em>Coming soon</em></article>
+        </div>
+    </div>
+
+    <div class="page red">
+        <div class="content">
+            <header>Group 5</header>
+            <article><em>Coming soon</em></article>
+        </div>
+    </div>
+
+    <div class="page orange">
+        <div class="content">
+            <header>Group 6</header>
+            <article><em>Coming soon</em></article>
+        </div>
+    </div>
+
+    <div class="page yellow">
+        <div class="content">
+            <header>Group 7</header>
+            <article><em>Coming soon</em></article>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
