@@ -11,6 +11,14 @@ var routes = require('./routes');
 
 var app = express();
 
+// New
+var mongoose = require('mongoose');
+var configdb = require('./config/database.js');
+
+// Connect to database
+mongoose.connect(configdb.url);
+// End new
+
 nunjucks.configure('views', {
   autoescape: true,
   express: app
