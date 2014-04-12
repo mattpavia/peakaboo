@@ -5,9 +5,11 @@
 var http = require('http');
 var express = require('express');
 var nunjucks = require('nunjucks');
+var njglobals = require('nunjucks/src/globals');
 var path = require('path');
 var socketio = require('socket.io');
 var routes = require('./routes');
+var passport = require('passport');
 
 var app = express();
 
@@ -15,13 +17,18 @@ var app = express();
 var mongoose = require('mongoose');
 var configdb = require('./config/database');
 
-// Connect to database
 mongoose.connect(configdb.url);
-// End new
+
+require('./config/passport')(passport);
 
 nunjucks.configure('views', {
   autoescape: true,
   express: app
+});
+
+var Group = require('./models/group');
+Group.find().or([{'user_1': 'Matt'}, {'user_2': 'Matt'}]).exec(function(err, groups) {
+  njglobals.groupList = groups;
 });
 
 // all environments
@@ -71,8 +78,22 @@ io.on('connection', function(socket) {
     });
 });
 
-app.get('/', routes.index);
-app.get('/:id', routes.index);
+// app.get('/', routes.index);
+// app.get('/:id', routes.index);
+
+app.get('/login', passport.authenticate('facebook', { scope : 'email' }));
+
+// handle the callback after facebook has authenticated the user
+app.get('/login/callback', passport.authenticate('facebook', {
+  successRedirect : '/worked',
+  failureRedirect : '/notworked'
+}));
+
+// route for logging out
+app.get('/logout', function(req, res) {
+  req.logout();
+  res.redirect('/');
+});
 
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
