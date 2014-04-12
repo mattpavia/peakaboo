@@ -2,7 +2,8 @@ $(document).ready(function() {
 
     var socket = io.connect();
 
-    $(".submit").on("click", function() {
+    $(".interact").submit("click", function(e) {
+        e.preventDefault();
         socket.emit('message', {
             msg: $(".input").val()
         });
