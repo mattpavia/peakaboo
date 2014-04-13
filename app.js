@@ -10,6 +10,7 @@ var path = require('path');
 var socketio = require('socket.io');
 var routes = require('./routes');
 var passport = require('passport');
+var Message       = require('./models/user');
 
 var app = express();
 
@@ -70,6 +71,16 @@ io.on('connection', function(socket) {
 
     socket.on('message', function(data) {
         messages.push(data);
+        
+        msg = new Message();
+        msg.id=data.group;
+        msg.data=data.data;
+
+        msg.save(function(err) {
+              if (err)
+                  throw err;
+              return done(null, msg);
+          });
 
         sockets.forEach(function (socket) {
             socket.emit('message', data);
