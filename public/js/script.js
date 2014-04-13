@@ -41,3 +41,22 @@ function cleanUp() {
 	}
 	$('.nav').html(newHTML);
 }
+function writeCookie(c_name, c_value, c_dur) {
+	var d = new Date();
+	d.setTime(d.getTime() + c_dur*24*60*60*1000));
+	var expires = "expires=" + d.toGMTString();
+	document.cookie = c_name + "=" + c_value + "; " + expires;
+}
+function readCookie(c_name) {
+	var name = cname + "=";
+	var ca = document.cookie.split(';');
+	for(var i=0; i<ca.length; i++) {
+		var c = ca[i].trim();
+		if(c.indexOf(name)==0) return c.substring(name.length, c.length);
+	}
+}
+
+function scrollToBottom() {
+	var div = $('.');
+	div.animate({scrollTop: div.prop("scrollHeight") - div.height()}, 3000);
+}
