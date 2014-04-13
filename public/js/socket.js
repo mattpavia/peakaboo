@@ -12,9 +12,9 @@ $(document).ready(function() {
         $(".input").val("");
     });
 
-    socket.on('message', function(data) {
-        console.log("new message recieved: " + data.msg);
-        $(".messages").append("<div class='me'>" + data.msg + "</div>");
+    socket.on('message', function(msg) {
+        console.log("new message recieved: " + msg.data);
+        $(".messages").append("<div class='me'>" + msg.data + "</div>");
     });
 
 });
