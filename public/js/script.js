@@ -60,6 +60,6 @@ function readCookie(c_name) {
 
 function scrollToBottom() {
 	var div = $('.messages');
-	div.animate({scrollTop: div.prop("scrollHeight") - div.height()}, 500);
+	div.scrollTop(div.prop("scrollHeight") - div.height());
 	return;
 }
