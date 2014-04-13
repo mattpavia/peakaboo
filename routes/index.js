@@ -11,10 +11,9 @@ module.exports = function(app, server, passport) {
     io.on('connection', function(socket) {
         sockets.push(socket);
 
-        //socket.emit('fid', '587902974');
-
         app.get('/group/:id', isLoggedIn, function(req, res) {
-
+            socket.emit('fid', req.user.fid);
+            
             Group.find().or([{'user_1': req.user.fid}, {'user_2': req.user.fid}]).exec(function(err, groups) {
               njglobals.groupList = groups;
             });
