@@ -72,14 +72,13 @@ io.on('connection', function(socket) {
     socket.on('message', function(data) {
         messages.push(data);
         
-        var msg = new Message();
-        msg.group=data.group;
-        msg.data=data.data;
-
+        var msg = new Message({'group':data.group, 'data': data.msg});
+        console.log("saving message...");
         msg.save(function(err) {
-              if (err)
-                  throw err;
-          });
+          if (err)
+            console.log(err);
+            return;
+        });
 
         sockets.forEach(function (socket) {
             socket.emit('message', data);
