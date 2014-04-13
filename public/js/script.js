@@ -3,9 +3,11 @@ $(document).ready(function() {
     $(".link." + color + "_hover").addClass("active");
     cleanUp();
 });
+
 function getUID() {
 	return "123324";
 }
+
 function newChat() {
 	var content = $(".nav").html();
 	var arr = content.split('<div class="link');
@@ -43,7 +45,7 @@ function cleanUp() {
 }
 function writeCookie(c_name, c_value, c_dur) {
 	var d = new Date();
-	d.setTime(d.getTime() + c_dur*24*60*60*1000));
+	d.setTime(d.getTime() + c_dur*24*60*60*1000);
 	var expires = "expires=" + d.toGMTString();
 	document.cookie = c_name + "=" + c_value + "; " + expires;
 }
