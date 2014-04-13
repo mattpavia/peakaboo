@@ -23,6 +23,7 @@ module.exports = function(app, passport) {
     });
 
     app.get('/group/:id', isLoggedIn, function(req, res) {
+        console.log("user: " + req.user);
         Group.findOne({'id': req.param('id')}, function(err, g) {
             if (err) {
                 console.log(err);
@@ -49,5 +50,5 @@ function isLoggedIn(req, res, next) {
         return next();
 
     // if they aren't redirect them to the home page
-    res.redirect('/error');
+    res.redirect('/login');
 }
