@@ -77,7 +77,7 @@ module.exports = function(app, server, passport) {
             while ((i<10) && (cnt!=0)) {
                 rand = Math.floor(Math.random()*count);
                 uid = User.find({'fid' : { $ne : user_1 }}).limit(-1).skip(rand);
-                Group.count().or([{'user_1' : user_1, 'user_2' : uid.fid}, {'user_1' : uid.fid, 'user_2' : user_1}]).exec(err, cnt);
+                cnt = Group.count().or([{'user_1' : user_1, 'user_2' : uid.fid}, {'user_1' : uid.fid, 'user_2' : user_1}]);
                 i++;
             }
             if (cnt == 0) {
