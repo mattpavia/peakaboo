@@ -7,10 +7,12 @@ var User = require('../models/user');
 module.exports = function(app, server, passport) {
 
     app.all('*', function(req, res) {
-        Group.find().or([{'user_1': req.user.fid}, {'user_2': req.user.fid}]).exec(function(err, groups) {
-          console.log(groups);
-          njglobals.groupList = groups;
-        });
+        if (req.isAuthenticated()) {
+            Group.find().or([{'user_1': req.user.fid}, {'user_2': req.user.fid}]).exec(function(err, groups) {
+              console.log(groups);
+              njglobals.groupList = groups;
+            });
+        }
     })
 
     var io = socketio.listen(server);
@@ -67,18 +69,21 @@ module.exports = function(app, server, passport) {
         });
 
         socket.on('group', function(user_1) {
-            Group.find({'user_1' : { $ne: user_1}});
             var count = User.count({'fid' : { $ne : user_1 }});
             var rand = Math.floor(Math.random()*count);
 
-            var uid = User.find({'fid' : { $ne : user_1 }}).limit(-1).skip(rand);
+            User.findOne({'fid' : { $ne : user_1 }}).limit(-1).skip(rand).exec(function (err, user) {
 
-            var newGroup = new Group({'user_1' : user_1, 'user_2' : uid});
-            newGroup.save(function(err) {
-                if (err) {
-                    console.error(error);
-                    return;
-                }
+                var newGroup = new Group({'user_1' : user_1, 'user_2' : user.fid});
+                newGroup.save(function(err) {
+                    if (err) {
+                        console.error(error);
+                        return;
+                    } else {
+                        console.log(newGroup);
+                    }
+                });
+
             });
 
         })
