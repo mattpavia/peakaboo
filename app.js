@@ -28,6 +28,7 @@ nunjucks.configure('views', {
 });
 
 var Group = require('./models/group');
+// change Matt
 Group.find().or([{'user_1': 'Matt'}, {'user_2': 'Matt'}]).exec(function(err, groups) {
   njglobals.groupList = groups;
 });
@@ -59,18 +60,22 @@ var server = http.createServer(app);
 var io = socketio.listen(server);
 
 // use local arrays for storage for now
-var messages = [];
+//var messages = [];
 var sockets = [];
 
 io.on('connection', function(socket) {
     sockets.push(socket);
 
-    messages.forEach(function(data) {
-        socket.emit('message', data);
+    Message.find(function(err, msg) {
+      socket.emit('message', msg);
     });
 
+    // messages.forEach(function(data) {
+    //     socket.emit('message', data);
+    // });
+
     socket.on('message', function(data) {
-        messages.push(data);
+        //messages.push(data);
         
         var msg = new Message({'group':data.group, 'data': data.msg});
         console.log("saving message...");
