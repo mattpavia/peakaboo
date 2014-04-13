@@ -62,7 +62,7 @@ function writeCookie(c_name, c_value) {
 	document.cookie = c_name + "=" + c_value;
 }
 function readCookie(c_name) {
-	var name = cname + "=";
+	var name = c_name + "=";
 	var ca = document.cookie.split(';');
 	for(var i=0; i<ca.length; i++) {
 		var c = ca[i].trim();
