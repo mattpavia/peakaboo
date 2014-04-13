@@ -65,22 +65,24 @@ module.exports = function(app, server, passport) {
 
         socket.on('group', function(user_1) {
             console.log("recieved request to make new group...");
-            var count = User.count({'fid' : { $ne : user_1.fid }});
+            var count = 0;
+            User.count({'fid' : { $ne : user_1.fid }}, function(err, c) {
+                count = c;
+            });
             var rand = Math.floor(Math.random()*count);
-
-            var uid = User.find({'fid' : { $ne : user_1.fid }}).limit(-1).skip(rand);
+            var uid = User.find({'fid' : { $ne : user_1.fid }}).limit(1).skip(rand);
+            console.log("user_1: " + user_1.fid + ". user_2: " + uid.fid);
             Group.count().or([{'user_1' : user_1.fid, 'user_2' : uid.fid}, {'user_1' : uid.fid, 'user_2' : user_1.fid}]).exec(function(err, c) {
                 var cnt = c;
                 var i = 0;
                 while ((i<10) && (cnt!=0)) {
                     rand = Math.floor(Math.random()*count);
-                    uid = User.find({'fid' : { $ne : user_1.fid }}).limit(-1).skip(rand);
+                    uid = User.find({'fid' : { $ne : user_1.fid }}).limit(1).skip(rand);
                     Group.count().or([{'user_1' : user_1.fid, 'user_2' : uid.fid}, {'user_1' : uid.fid, 'user_2' : user_1.fid}]).exec(function(err, c) {
                         cnt = c;
                     });
                     i++;
                 }
-                console.log("user_1: " + user_1.fid + ". user_2: " + uid.fid);
                 if (cnt == 0) {
                     var newGroup = new Group({'user_1' : user_1.fid, 'user_2' : uid.fid, 'active' : true});
                     newGroup.save(function(err) {
