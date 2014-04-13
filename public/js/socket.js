@@ -15,7 +15,7 @@ $(document).ready(function() {
     });
 
     socket.on('message', function(msg) {
-        if (msg.sender == getUID()) {
+        if (msg.sender === getUID()) {
             $(".messages").append("<div class='me'>" + msg.data + "</div>");
         } else {
             $(".messages").append("<div class='other'>" + msg.data + "</div>");
