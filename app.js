@@ -67,6 +67,7 @@ io.on('connection', function(socket) {
     sockets.push(socket);
 
     Message.find(function(err, msg) {
+      console.log(msg);
       socket.emit('message', msg);
     });
 
