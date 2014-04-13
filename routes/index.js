@@ -72,21 +72,18 @@ module.exports = function(app, server, passport) {
             var count = User.count({'fid' : { $ne : user_1 }});
             var rand = Math.floor(Math.random()*count);
 
-            User.findOne({'fid' : { $ne : user_1 }}).limit(-1).skip(rand).exec(function (err, user) {
+            var user = User.findOne({'fid' : { $ne : user_1 }}).limit(-1).skip(rand);
 
-                var newGroup = new Group({'user_1' : user_1, 'user_2' : user.fid});
-                newGroup.save(function(err) {
-                    if (err) {
-                        console.error(error);
-                        return;
-                    } else {
-                        console.log(newGroup);
-                    }
-                });
-
+            var newGroup = new Group({'user_1' : user_1, 'user_2' : user.fid});
+            newGroup.save(function(err) {
+                if (err) {
+                    console.error(error);
+                    return;
+                } else {
+                    console.log(newGroup);
+                }
             });
-
-        })
+        });
 
         socket.on('disconnect', function() {
             sockets.splice(sockets.indexOf(socket), 1);
