@@ -3,12 +3,18 @@ $(document).ready(function() {
     $(".link." + color + "_hover").addClass("active");
     cleanUp();
 });
+function getUID() {
+	return "123324";
+}
 function newChat() {
 	var content = $(".nav").html();
 	var arr = content.split('<div class="link');
 	var colors = ['green', 'teal', 'blue', 'purple', 'red', 'orange', 'yellow'];
 	var icons = ['home', 'comments', 'thumb-tack', 'users', 'user', 'trophy', 'envelope-o'];
 	var cnt = arr.length;
+	socket.emit('group', {
+        fid: getUID()
+    });
 	var color = colors[cnt%colors.length];
 	var icon = icons[cnt%icons.length];
 	var addition = '<div class="link ' + color + '_hover" data-color="' + color + '"><a href="/group/' + cnt + '"><i class="fa fa-' + icon + '"></i> <span>Group ' + cnt + '</span></a></div>';
