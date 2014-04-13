@@ -82,12 +82,14 @@ module.exports = function(app, server, passport) {
                 }
                 console.log("cnt=" + cnt);
                 if (cnt == 0) {
-                    var newGroup = new Group({'id': getNextSequence('groupid'), 'user_1' : user_1, 'user_2' : uid.fid, 'active' : true});
+                    var newGroup = new Group({'user_1' : user_1, 'user_2' : uid.fid, 'active' : true});
                     newGroup.save(function(err) {
                         if (err) {
                             console.error(error);
                             return;
                         }
+                        console.log(newGroup._id);
+                        socket.emit('group', newGroup._id)
                     });
                 }
             });
