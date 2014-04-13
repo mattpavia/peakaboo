@@ -111,6 +111,7 @@ a:hover {
     .messages {
         height: 90%;
         overflow: scroll;
+        padding-bottom: 5px;
     }
 
     .messages .other, .messages .me {
