@@ -71,7 +71,21 @@ module.exports = function(app, server, passport) {
             });
             var rand = Math.floor(Math.random()*count);
             User.find({'fid' : { $ne : user_1.fid }}, function(err, users) {
-                console.log("user_1: " + user_1.fid + ". user_2: " + users);
+                var i = 0;
+                var rand = Math.floor(Math.random()*users.length);
+                while (users[rand].fid === user_1.fid) {
+                    rand = Math.floor(Math.random()*users.length);
+                }
+                console.log("user_1: " + user_1.fid + ". user_2: " + users[rand].fid);
+                var newGroup = new Group({'user_1' : user_1.fid, 'user_2' : users[rand].fid, 'active' : true});
+                newGroup.save(function(err) {
+                    if (err) {
+                        console.error(error);
+                        return;
+                    }
+                    socket.emit('group', newGroup._id)
+                });
+
             });
             // Group.count().or([{'user_1' : user_1.fid, 'user_2' : uid.fid}, {'user_1' : uid.fid, 'user_2' : user_1.fid}]).exec(function(err, c) {
             //     var cnt = c;
