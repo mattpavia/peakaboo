@@ -8,7 +8,6 @@ var nunjucks = require('nunjucks');
 var path = require('path');
 var routes = require('./routes');
 var passport = require('passport');
-var Group = require('./models/group');
 
 var app = express();
 

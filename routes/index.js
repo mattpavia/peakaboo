@@ -2,18 +2,8 @@ var njglobals = require('nunjucks/src/globals');
 var socketio = require('socket.io');
 var Message = require('../models/message');
 var Group = require('../models/group');
-var User = require('../models/user');
 
 module.exports = function(app, server, passport) {
-
-    app.all('*', function(req, res) {
-        if (req.isAuthenticated()) {
-            Group.find().or([{'user_1': req.user.fid}, {'user_2': req.user.fid}]).exec(function(err, groups) {
-              console.log(groups);
-              njglobals.groupList = groups;
-            });
-        }
-    })
 
     var io = socketio.listen(server);
     var sockets = [];
@@ -23,6 +13,10 @@ module.exports = function(app, server, passport) {
 
         app.get('/group/:id', isLoggedIn, function(req, res) {
             socket.emit('fid', req.user.fid);
+            
+            Group.find().or([{'user_1': req.user.fid}, {'user_2': req.user.fid}]).exec(function(err, groups) {
+              njglobals.groupList = groups;
+            });
             
             Group.findOne({'id': req.param('id')}, function(err, g) {
                 if (err) {
@@ -58,30 +52,13 @@ module.exports = function(app, server, passport) {
             var msg = new Message({'group': data.group, 'data': data.msg, 'sender': data.sender});
             msg.save(function(err) {
                 if (err) {
-                    console.error(err);
+                    console.log(err);
                     return;
                 }
             });
 
             sockets.forEach(function(socket) {
                 socket.emit('message', msg);
-            });
-        });
-
-        socket.on('group', function(user_1) {
-            var count = User.count({'fid' : { $ne : user_1 }});
-            var rand = Math.floor(Math.random()*count);
-
-            var user = User.findOne({'fid' : { $ne : user_1 }}).limit(-1).skip(rand);
-
-            var newGroup = new Group({'user_1' : user_1, 'user_2' : user.fid});
-            newGroup.save(function(err) {
-                if (err) {
-                    console.error(error);
-                    return;
-                } else {
-                    console.log(newGroup);
-                }
             });
         });
 
