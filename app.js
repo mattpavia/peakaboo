@@ -69,7 +69,7 @@ io.on('connection', function(socket) {
     Message.find(function(err, msg) {
       console.log(msg);
       msg.forEach(function(m) {
-        socket.emit('message', m;
+        socket.emit('message', m);
       });
     });
 
