@@ -19,7 +19,7 @@ module.exports = function(app, server, passport) {
               njglobals.groupList = groups;
             });
             
-            Group.findOne({'id': req.param('id')}, function(err, g) {
+            Group.findOne({'_id': req.param('id')}, function(err, g) {
                 if (err) {
                     console.log(err);
                 }
