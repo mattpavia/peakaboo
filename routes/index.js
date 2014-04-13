@@ -1,7 +1,66 @@
-var Group = require('../models/group');
 var njglobals = require('nunjucks/src/globals');
+var socketio = require('socket.io');
+var Message = require('../models/message');
+var Group = require('../models/group');
 
-module.exports = function(app, passport) {
+module.exports = function(app, server, passport) {
+
+    var io = socketio.listen(server);
+    var sockets = [];
+
+    io.on('connection', function(socket) {
+        sockets.push(socket);
+
+        //socket.emit('fid', '587902974');
+
+        app.get('/group/:id', isLoggedIn, function(req, res) {
+
+            Group.find().or([{'user_1': req.user.fid}, {'user_2': req.user.fid}]).exec(function(err, groups) {
+              njglobals.groupList = groups;
+            });
+            
+            Group.findOne({'id': req.param('id')}, function(err, g) {
+                if (err) {
+                    console.log(err);
+                }
+                if (g) {
+                    res.render('group.html', {
+                        title: 'Peekaboo',
+                        group: g,
+                        user: req.user
+                    });
+                } else {
+                    res.render('error.html', {
+                        group: req.param('id')
+                    });
+                }
+            });
+        });
+
+        Message.find(function(err, msg) {
+            msg.forEach(function(m) {
+              socket.emit('message', m);
+            });
+        });
+
+        socket.on('message', function(data) {
+            var msg = new Message({'group': data.group, 'data': data.msg});
+            msg.save(function(err) {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
+            });
+
+            sockets.forEach(function(socket) {
+                socket.emit('message', msg);
+            });
+        });
+
+        socket.on('disconnect', function() {
+            sockets.splice(sockets.indexOf(socket), 1);
+        });
+    });
 
     app.get('/', function(req, res) {
         res.render('index.html', {
@@ -21,29 +80,6 @@ module.exports = function(app, passport) {
     app.get('/logout', function(req, res) {
       req.logout();
       res.redirect('/');
-    });
-
-    app.get('/group/:id', isLoggedIn, function(req, res) {
-        Group.find().or([{'user_1': req.user.fid}, {'user_2': req.user.fid}]).exec(function(err, groups) {
-          njglobals.groupList = groups;
-        });
-        
-        Group.findOne({'id': req.param('id')}, function(err, g) {
-            if (err) {
-                console.log(err);
-            }
-            if (g) {
-                res.render('group.html', {
-                    title: 'Peekaboo',
-                    group: g,
-                    user: req.user
-                });
-            } else {
-                res.render('error.html', {
-                    group: req.param('id')
-                });
-            }
-        });
     });
 }
 
