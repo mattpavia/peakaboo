@@ -23,11 +23,17 @@ module.exports = function(app, server, passport) {
                     console.log(err);
                 }
                 if (g) {
-                    res.render('group.html', {
-                        title: 'Peekaboo',
-                        group: g,
-                        user: req.user
-                    });
+                    if (g.user_1 === req.user.fid || g.user_2 === req.user.fid) {
+                        res.render('group.html', {
+                            title: 'Peekaboo',
+                            group: g,
+                            user: req.user
+                        });
+                    } else {
+                        res.render('index.html', {
+                            title: 'Peekaboo'
+                        })
+                    }
                 } else {
                     res.render('error.html', {
                         group: req.param('id')
