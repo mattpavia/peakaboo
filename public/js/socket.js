@@ -22,7 +22,7 @@ $(document).ready(function() {
         }
         scrollToBottom();
     });
-    socket.on('fbid', function(fid) {
+    socket.on('fid', function(fid) {
         setUID(fid);
     });
 });
