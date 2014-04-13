@@ -120,6 +120,7 @@ a:hover {
         padding: 1%;
         border-radius: 20px;
         margin-bottom: 1%;
+        word-wrap: break-word;
     }
 
     .messages .other {
