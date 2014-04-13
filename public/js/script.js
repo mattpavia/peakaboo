@@ -9,6 +9,7 @@ function getUID() {
 }
 
 function newChat() {
+	var socket = io.connect();
 	var content = $(".nav").html();
 	var arr = content.split('<div class="link');
 	var colors = ['green', 'teal', 'blue', 'purple', 'red', 'orange', 'yellow'];
