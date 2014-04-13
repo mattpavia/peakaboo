@@ -24,5 +24,5 @@ $(document).ready(function() {
     });
     socket.on('fbid', function(fid) {
         setUID(fid);
-    }
+    });
 });
