@@ -13,7 +13,13 @@ $(document).ready(function() {
     });
 
     socket.on('message', function(msg) {
-        $(".messages").append("<div class='me'>" + msg.data + "</div>");
+        console.log("new message recieved: " + msg.data);
+        if (msg.sender == getUID()) {
+            $(".messages").append("<div class='me'>" + msg.data + "</div>");
+        } else {
+            $(".messages").append("<div class='other'>" + msg.data + "</div>");
+        }
+        scrollToBottom();
     });
 
 });
