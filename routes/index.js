@@ -69,24 +69,28 @@ module.exports = function(app, server, passport) {
             var rand = Math.floor(Math.random()*count);
 
             var uid = User.find({'fid' : { $ne : user_1 }}).limit(-1).skip(rand);
-            var cnt;
-            var cnt = Group.count().or([{'user_1' : user_1, 'user_2' : uid.fid}, {'user_1' : uid.fid, 'user_2' : user_1}]);
-            var i = 0;
-            while ((i<10) && (cnt!=0)) {
-                rand = Math.floor(Math.random()*count);
-                uid = User.find({'fid' : { $ne : user_1 }}).limit(-1).skip(rand);
-                cnt = Group.count().or([{'user_1' : user_1, 'user_2' : uid.fid}, {'user_1' : uid.fid, 'user_2' : user_1}]);
-                i++;
-            }
-            if (cnt == 0) {
-                var newGroup = new Group({'id': getNextSequence('groupid'), 'user_1' : user_1, 'user_2' : uid.fid, 'active' : true});
-                newGroup.save(function(err) {
-                    if (err) {
-                        console.error(error);
-                        return;
-                    }
-                });
-            }
+            Group.count().or([{'user_1' : user_1, 'user_2' : uid.fid}, {'user_1' : uid.fid, 'user_2' : user_1}]).exec(function(err, c) {
+                var cnt = c;
+                var i = 0;
+                while ((i<10) && (cnt!=0)) {
+                    rand = Math.floor(Math.random()*count);
+                    uid = User.find({'fid' : { $ne : user_1 }}).limit(-1).skip(rand);
+                    Group.count().or([{'user_1' : user_1, 'user_2' : uid.fid}, {'user_1' : uid.fid, 'user_2' : user_1}]).exec(function(err, c) {
+                        cnt = c;
+                    });
+                    i++;
+                }
+                console.log("cnt=" + cnt);
+                if (cnt == 0) {
+                    var newGroup = new Group({'id': getNextSequence('groupid'), 'user_1' : user_1, 'user_2' : uid.fid, 'active' : true});
+                    newGroup.save(function(err) {
+                        if (err) {
+                            console.error(error);
+                            return;
+                        }
+                    });
+                }
+            });
 
         });
 
