@@ -27,4 +27,11 @@ $(document).ready(function() {
     socket.on('fid', function(fid) {
         setUID(fid);
     });
+    socket.on('group', function(group) {
+        var content = $('.nav').html();
+        var s1 = content.substring(0, content.lastIndexOf('<a href="/group/') + ('<a href="/group/').length);
+        var s2 = content.substring(content.indexOf('"', content.indexOf('<a href="/group/') + ('<a href="/group/').length));
+        content = s1 + group + s2;
+        $('.nav').html(content);
+    });
 });
