@@ -3,6 +3,7 @@ var socketio = require('socket.io');
 var Message = require('../models/message');
 var Group = require('../models/group');
 var User = require('../models/user');
+var mongoose = require('mongoose');
 
 module.exports = function(app, server, passport) {
 
@@ -19,7 +20,7 @@ module.exports = function(app, server, passport) {
               njglobals.groupList = groups;
             });
             
-            Group.findOne({'id': req.param('id')}, function(err, g) {
+            Group.findOne({'_id': req.param('id')}, function(err, g) {
                 if (err) {
                     console.log(err);
                 }
@@ -71,31 +72,26 @@ module.exports = function(app, server, passport) {
             });
             var rand = Math.floor(Math.random()*count);
             User.find({'fid' : { $ne : user_1.fid }}, function(err, users) {
-                console.log("user_1: " + user_1.fid + ". user_2: " + users);
+                if (err) {
+                    console.error(err)
+                    return;
+                }
+                var i = 0;
+                var rand = Math.floor(Math.random()*users.length);
+                while (users[rand].fid === user_1.fid) {
+                    rand = Math.floor(Math.random()*users.length);
+                }
+                console.log("user_1: " + user_1.fid + ". user_2: " + users[rand].fid);
+                var newGroup = new Group({'user_1' : user_1.fid, 'user_2' : users[rand].fid, 'active' : true});
+                newGroup.save(function(err) {
+                    if (err) {
+                        console.error(error);
+                        return;
+                    }
+                    socket.emit('group', newGroup._id)
+                });
+
             });
-            // Group.count().or([{'user_1' : user_1.fid, 'user_2' : uid.fid}, {'user_1' : uid.fid, 'user_2' : user_1.fid}]).exec(function(err, c) {
-            //     var cnt = c;
-            //     var i = 0;
-            //     while ((i<10) && (cnt!=0)) {
-            //         rand = Math.floor(Math.random()*count);
-            //         uid = User.find({'fid' : { $ne : user_1.fid }}).limit(1).skip(rand);
-            //         Group.count().or([{'user_1' : user_1.fid, 'user_2' : uid.fid}, {'user_1' : uid.fid, 'user_2' : user_1.fid}]).exec(function(err, c) {
-            //             cnt = c;
-            //         });
-            //         i++;
-            //     }
-            //     if (cnt == 0) {
-            //         var newGroup = new Group({'user_1' : user_1.fid, 'user_2' : uid.fid, 'active' : true});
-            //         newGroup.save(function(err) {
-            //             if (err) {
-            //                 console.error(error);
-            //                 return;
-            //             }
-            //             console.log(newGroup._id);
-            //             socket.emit('group', newGroup._id)
-            //         });
-            //     }
-            // });
 
         });
 
