@@ -70,8 +70,9 @@ module.exports = function(app, server, passport) {
                 count = c;
             });
             var rand = Math.floor(Math.random()*count);
-            var users = User.find({'fid' : { $ne : user_1.fid }});
-            console.log("user_1: " + user_1.fid + ". user_2: " + users);
+            User.find({'fid' : { $ne : user_1.fid }}, function(err, users) {
+                console.log("user_1: " + user_1.fid + ". user_2: " + users);
+            });
             // Group.count().or([{'user_1' : user_1.fid, 'user_2' : uid.fid}, {'user_1' : uid.fid, 'user_2' : user_1.fid}]).exec(function(err, c) {
             //     var cnt = c;
             //     var i = 0;
