@@ -67,7 +67,6 @@ io.on('connection', function(socket) {
     sockets.push(socket);
 
     Message.find(function(err, msg) {
-      console.log(msg);
       msg.forEach(function(m) {
         socket.emit('message', m);
       });
@@ -81,7 +80,6 @@ io.on('connection', function(socket) {
         //messages.push(data);
         
         var msg = new Message({'group': data.group, 'data': data.msg});
-        console.log("saving message...");
         msg.save(function(err) {
           if (err) {
             console.log(err);
