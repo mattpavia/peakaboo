@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	cleanUp();
+	//cleanUp();
 });
 
 function getUID() {

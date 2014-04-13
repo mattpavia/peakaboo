@@ -8,6 +8,7 @@ var nunjucks = require('nunjucks');
 var path = require('path');
 var routes = require('./routes');
 var passport = require('passport');
+var Group = require('./models/group');
 
 var app = express();
 
@@ -39,6 +40,11 @@ app.configure(function() {
   app.use(passport.session()); // persistent login sessions
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
+  app.use(function(req, res) {
+    Group.find().or([{'user_1': req.user.fid}, {'user_2': req.user.fid}]).exec(function(err, groups) {
+      njglobals.groupList = groups;
+    });
+  })
 });
 
 var server = http.createServer(app);

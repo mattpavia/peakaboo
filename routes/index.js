@@ -2,6 +2,7 @@ var njglobals = require('nunjucks/src/globals');
 var socketio = require('socket.io');
 var Message = require('../models/message');
 var Group = require('../models/group');
+var User = require('../models/user');
 
 module.exports = function(app, server, passport) {
 
@@ -13,10 +14,6 @@ module.exports = function(app, server, passport) {
 
         app.get('/group/:id', isLoggedIn, function(req, res) {
             socket.emit('fid', req.user.fid);
-            
-            Group.find().or([{'user_1': req.user.fid}, {'user_2': req.user.fid}]).exec(function(err, groups) {
-              njglobals.groupList = groups;
-            });
             
             Group.findOne({'id': req.param('id')}, function(err, g) {
                 if (err) {
@@ -52,7 +49,7 @@ module.exports = function(app, server, passport) {
             var msg = new Message({'group': data.group, 'data': data.msg, 'sender': data.sender});
             msg.save(function(err) {
                 if (err) {
-                    console.log(err);
+                    console.error(err);
                     return;
                 }
             });
@@ -61,6 +58,23 @@ module.exports = function(app, server, passport) {
                 socket.emit('message', msg);
             });
         });
+
+        socket.on('group', function(user_1) {
+            Group.find({'user_1' : { $ne: user_1}});
+            var count = User.count({'fid' : { $ne : user_1 }});
+            var rand = Math.floor(Math.random()*count);
+
+            var uid = User.find({'fid' : { $ne : user_1 }}).limit(-1).skip(rand);
+
+            var newGroup = new Group({'user_1' : user_1, 'user_2' : uid});
+            newGroup.save(function(err) {
+                if (err) {
+                    console.error(error);
+                    return;
+                }
+            });
+
+        })
 
         socket.on('disconnect', function() {
             sockets.splice(sockets.indexOf(socket), 1);
