@@ -7,7 +7,7 @@ $(document).ready(function() {
         e.preventDefault();
         socket.emit('message', {
             msg: $(".input").val(),
-            group: form.data('id');
+            group: form.data('id')
         });
         $(".input").val("");
     });
