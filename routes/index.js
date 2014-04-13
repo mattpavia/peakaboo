@@ -6,7 +6,7 @@ var User = require('../models/user');
 
 module.exports = function(app, server, passport) {
 
-    app.all('*', function(req, res) {
+    app.all('*', isLoggedIn, function(req, res) {
         Group.find().or([{'user_1': req.user.fid}, {'user_2': req.user.fid}]).exec(function(err, groups) {
           njglobals.groupList = groups;
         });
@@ -125,5 +125,5 @@ function isLoggedIn(req, res, next) {
         return next();
 
     // if they aren't redirect them to the home page
-    res.redirect('/login');
+    res.redirect('/');
 }
