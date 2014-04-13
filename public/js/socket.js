@@ -5,10 +5,12 @@ $(document).ready(function() {
     $(".interact").submit("click", function(e) {
         var form = $(this);
         e.preventDefault();
-        socket.emit('message', {
-            msg: $(".input").val(),
-            group: form.data('id')
-        });
+        if ($(".input").val().length !== 0) {
+            socket.emit('message', {
+                msg: $(".input").val(),
+                group: form.data('id')
+            });
+        }
         $(".input").val("");
     });
 
