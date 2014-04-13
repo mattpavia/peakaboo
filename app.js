@@ -21,7 +21,6 @@ var configdb = require('./config/database');
 mongoose.connect(configdb.url);
 
 var test = require('./config/passport')(passport);
-console.log("passport:" + test);
 
 nunjucks.configure('views', {
   autoescape: true,
@@ -59,6 +58,8 @@ if ('development' == app.get('env')) {
 var server = http.createServer(app);
 
 var io = socketio.listen(server);
+
+console.log("passport:" + test);
 
 // use local arrays for storage for now
 //var messages = [];
