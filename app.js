@@ -90,22 +90,7 @@ io.on('connection', function(socket) {
     });
 });
 
-app.get('/login', passport.authenticate('facebook', { scope : 'email' }));
-
-// handle the callback after facebook has authenticated the user
-app.get('/login/callback', passport.authenticate('facebook', {
-  successRedirect : '/',
-  failureRedirect : '/login'
-}));
-
-// route for logging out
-app.get('/logout', function(req, res) {
-  req.logout();
-  res.redirect('/');
-});
-
-app.get('/', routes.index);
-app.get('/group/:id', routes.group);
+require('./routes')(app, passport);
 
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
