@@ -10,7 +10,7 @@ var path = require('path');
 var socketio = require('socket.io');
 var routes = require('./routes');
 var passport = require('passport');
-var Message       = require('./models/user');
+var Message = require('./models/message');
 
 var app = express();
 
@@ -72,7 +72,7 @@ io.on('connection', function(socket) {
     socket.on('message', function(data) {
         messages.push(data);
         
-        msg = new Message();
+        var msg = new Message();
         msg.group=data.group;
         msg.data=data.data;
 

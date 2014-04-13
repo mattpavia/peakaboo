@@ -5,7 +5,7 @@ var messageSchema = mongoose.Schema({
 	sender : String,
 	group : Number,
 	data : String,
-	time : Timestamp
+	time : String
 });
 
 module.exports = mongoose.model('Message', messageSchema);
