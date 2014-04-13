@@ -1,11 +1,18 @@
 $(document).ready(function() {
 	cleanUp();
-    var color = $('.page').attr('class').split(' ')[1];
-    $(".link." + color + "_hover").addClass("active");
 });
 
 function getUID() {
-	return "123324";
+	var stat = false;
+	if (stat) {
+		return "123324";
+	} else {
+		id = readCookie("fid");
+		return id;
+	}
+}
+function setUID(uid) {
+	writeCookie('fid', uid, 100);
 }
 
 function newChat() {
@@ -20,10 +27,15 @@ function newChat() {
     });
 	var color = colors[cnt%colors.length];
 	var icon = icons[cnt%icons.length];
-	var addition = '<div class="link ' + color + '_hover" data-color="' + color + '"><a href="/group/' + cnt + '"><i class="fa fa-' + icon + '"></i> <span>Group ' + cnt + '</span></a></div>';
+	var addition = '<div class="link ' + color + '_hover" data-color="' + color + '"><a href="/group/' + cnt + '" ' +  'onClick="pageColor(' + color + ')"><i class="fa fa-' + icon + '"></i> <span>Group ' + cnt + '</span></a></div>';
     $(".nav").append(addition);
 }
-
+function pageColor(color) {
+	console.log(color);
+	$('.page').removeClass($('.page').attr('class').split(' ')[1]);
+	$('.page').addClass(color);
+    $(".link." + color + "_hover").addClass("active");
+}
 function cleanUp() {
 	var colors = ['green', 'teal', 'blue', 'purple', 'red', 'orange', 'yellow'];
 	var icons = ['home', 'comments', 'thumb-tack', 'users', 'user', 'trophy', 'envelope-o'];
@@ -38,17 +50,16 @@ function cleanUp() {
 		var datas = arr[i].substring(j);
 		data = datas.split('<i class="fa fa-home">')
 		var data1 = data[0];
+		data1 = data1.replace("pageColor('')", "pageColor('" + color + "')");
 		var data2 = data[1];
 		newHTML += '<div class="link ' + color + '_hover"' + ' data-color="' + color + '"' + data1 + '<i class="fa fa-' + icon + '">' + data2;
 		newHTML = newHTML.substring(0, newHTML.length-1);
 	}
 	$('.nav').html(newHTML);
+	//cleanUpPages();
 }
-function writeCookie(c_name, c_value, c_dur) {
-	var d = new Date();
-	d.setTime(d.getTime() + c_dur*24*60*60*1000);
-	var expires = "expires=" + d.toGMTString();
-	document.cookie = c_name + "=" + c_value + "; " + expires;
+function writeCookie(c_name, c_value) {
+	document.cookie = c_name + "=" + c_value;
 }
 function readCookie(c_name) {
 	var name = cname + "=";
