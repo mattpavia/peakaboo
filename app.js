@@ -73,13 +73,12 @@ io.on('connection', function(socket) {
         messages.push(data);
         
         msg = new Message();
-        msg.id=data.group;
+        msg.group=data.group;
         msg.data=data.data;
 
         msg.save(function(err) {
               if (err)
                   throw err;
-              return done(null, msg);
           });
 
         sockets.forEach(function (socket) {
