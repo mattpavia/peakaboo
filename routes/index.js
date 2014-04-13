@@ -43,7 +43,7 @@ module.exports = function(app, server, passport) {
         });
 
         socket.on('message', function(data) {
-            var msg = new Message({'group': data.group, 'data': data.msg});
+            var msg = new Message({'group': data.group, 'data': data.msg, 'sender': data.sender});
             msg.save(function(err) {
                 if (err) {
                     console.log(err);

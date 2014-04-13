@@ -8,7 +8,8 @@ $(document).ready(function() {
         if ($(".input").val().length !== 0) {
             socket.emit('message', {
                 msg: $(".input").val(),
-                group: form.data('id')
+                group: form.data('id'),
+                sender: getUID()
             });
         }
         $(".input").val("");
