@@ -120,7 +120,7 @@ a:hover {
         padding: 1%;
         border-radius: 20px;
         margin-bottom: 1%;
-        width: 80%;
+        max-width: 80%;
         word-wrap: break-word;
     }
 
