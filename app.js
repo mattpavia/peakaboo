@@ -5,7 +5,6 @@
 var http = require('http');
 var express = require('express');
 var nunjucks = require('nunjucks');
-var njglobals = require('nunjucks/src/globals');
 var path = require('path');
 var socketio = require('socket.io');
 var routes = require('./routes');
@@ -25,12 +24,6 @@ var test = require('./config/passport')(passport);
 nunjucks.configure('views', {
   autoescape: true,
   express: app
-});
-
-var Group = require('./models/group');
-// change Matt
-Group.find().or([{'user_1': 'Matt'}, {'user_2': 'Matt'}]).exec(function(err, groups) {
-  njglobals.groupList = groups;
 });
 
 app.configure(function() {

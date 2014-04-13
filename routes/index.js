@@ -1,4 +1,5 @@
 var Group = require('../models/group');
+var njglobals = require('nunjucks/src/globals');
 
 module.exports = function(app, passport) {
 
@@ -23,7 +24,10 @@ module.exports = function(app, passport) {
     });
 
     app.get('/group/:id', isLoggedIn, function(req, res) {
-        console.log("user: " + req.user);
+        Group.find().or([{'user_1': req.user.fid}, {'user_2': req.user.fid}]).exec(function(err, groups) {
+          njglobals.groupList = groups;
+        });
+        
         Group.findOne({'id': req.param('id')}, function(err, g) {
             if (err) {
                 console.log(err);
