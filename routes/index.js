@@ -6,6 +6,13 @@ var User = require('../models/user');
 
 module.exports = function(app, server, passport) {
 
+    app.all('*', function(req, res) {
+        Group.find().or([{'user_1': req.user.fid}, {'user_2': req.user.fid}]).exec(function(err, groups) {
+          console.log(groups);
+          njglobals.groupList = groups;
+        });
+    })
+
     var io = socketio.listen(server);
     var sockets = [];
 
