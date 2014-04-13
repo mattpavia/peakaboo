@@ -84,14 +84,16 @@ module.exports = function(app, server, passport) {
                     rand = Math.floor(Math.random()*users.length);
                 }
                 console.log("user_1: " + user_1.fid + ". user_2: " + users[rand].fid);
+
                 shasum.update(user_1.fid + users[rand].fid);
-                var newGroup = new Group({'user_1' : user_1.fid, 'user_2' : users[rand].fid, 'active' : true, hash : shasum.digest('hex')});
+                var hashsha1 = shasum.digest('hex');
+                var newGroup = new Group({'user_1' : user_1.fid, 'user_2' : users[rand].fid, 'active' : true, hash : hashsha1});
                 newGroup.save(function(err) {
                     if (err) {
                         console.error(error);
                         return;
                     }
-                    socket.emit('group', shasum.digest('hex'))
+                    socket.emit('group', hashsha1);
                 });
 
             });
