@@ -20,7 +20,8 @@ var configdb = require('./config/database');
 
 mongoose.connect(configdb.url);
 
-require('./config/passport')(passport);
+var test = require('./config/passport')(passport);
+console.log("passport:" + test);
 
 nunjucks.configure('views', {
   autoescape: true,
