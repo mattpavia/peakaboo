@@ -71,6 +71,10 @@ module.exports = function(app, server, passport) {
             });
             var rand = Math.floor(Math.random()*count);
             User.find({'fid' : { $ne : user_1.fid }}, function(err, users) {
+                if (err) {
+                    console.error(err)
+                    return;
+                }
                 var i = 0;
                 var rand = Math.floor(Math.random()*users.length);
                 while (users[rand].fid === user_1.fid) {
@@ -87,29 +91,6 @@ module.exports = function(app, server, passport) {
                 });
 
             });
-            // Group.count().or([{'user_1' : user_1.fid, 'user_2' : uid.fid}, {'user_1' : uid.fid, 'user_2' : user_1.fid}]).exec(function(err, c) {
-            //     var cnt = c;
-            //     var i = 0;
-            //     while ((i<10) && (cnt!=0)) {
-            //         rand = Math.floor(Math.random()*count);
-            //         uid = User.find({'fid' : { $ne : user_1.fid }}).limit(1).skip(rand);
-            //         Group.count().or([{'user_1' : user_1.fid, 'user_2' : uid.fid}, {'user_1' : uid.fid, 'user_2' : user_1.fid}]).exec(function(err, c) {
-            //             cnt = c;
-            //         });
-            //         i++;
-            //     }
-            //     if (cnt == 0) {
-            //         var newGroup = new Group({'user_1' : user_1.fid, 'user_2' : uid.fid, 'active' : true});
-            //         newGroup.save(function(err) {
-            //             if (err) {
-            //                 console.error(error);
-            //                 return;
-            //             }
-            //             console.log(newGroup._id);
-            //             socket.emit('group', newGroup._id)
-            //         });
-            //     }
-            // });
 
         });
 
