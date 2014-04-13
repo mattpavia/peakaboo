@@ -1,7 +1,7 @@
 $(document).ready(function() {
+	cleanUp();
     var color = $('.page').attr('class').split(' ')[1];
     $(".link." + color + "_hover").addClass("active");
-    cleanUp();
 });
 
 function getUID() {
