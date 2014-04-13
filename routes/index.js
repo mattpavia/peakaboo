@@ -6,12 +6,6 @@ var User = require('../models/user');
 
 module.exports = function(app, server, passport) {
 
-    app.all('*', isLoggedIn, function(req, res) {
-        Group.find().or([{'user_1': req.user.fid}, {'user_2': req.user.fid}]).exec(function(err, groups) {
-          njglobals.groupList = groups;
-        });
-    });
-
     var io = socketio.listen(server);
     var sockets = [];
 
@@ -20,6 +14,10 @@ module.exports = function(app, server, passport) {
 
         app.get('/group/:id', isLoggedIn, function(req, res) {
             socket.emit('fid', req.user.fid);
+
+            Group.find().or([{'user_1': req.user.fid}, {'user_2': req.user.fid}]).exec(function(err, groups) {
+              njglobals.groupList = groups;
+            });
             
             Group.findOne({'id': req.param('id')}, function(err, g) {
                 if (err) {
