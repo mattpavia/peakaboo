@@ -12,7 +12,7 @@ function getUID() {
 	}
 }
 function setUID(uid) {
-	writeCookie('fid', uid, 100);
+	writeCookie('fid', uid);
 }
 
 function newChat() {
