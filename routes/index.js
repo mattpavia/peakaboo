@@ -1,6 +1,7 @@
 var Group = require('../models/group');
 
 exports.index = function(req, res) {
+    console.log("req.user = " + req.user);
     res.render('index.html', {
         title: 'Peekaboo'
     });

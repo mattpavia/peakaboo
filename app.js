@@ -59,10 +59,7 @@ var server = http.createServer(app);
 
 var io = socketio.listen(server);
 
-console.log("passport:" + test);
-
 // use local arrays for storage for now
-//var messages = [];
 var sockets = [];
 
 io.on('connection', function(socket) {
@@ -74,13 +71,7 @@ io.on('connection', function(socket) {
       });
     });
 
-    // messages.forEach(function(data) {
-    //     socket.emit('message', data);
-    // });
-
     socket.on('message', function(data) {
-        //messages.push(data);
-        
         var msg = new Message({'group': data.group, 'data': data.msg});
         msg.save(function(err) {
           if (err) {
